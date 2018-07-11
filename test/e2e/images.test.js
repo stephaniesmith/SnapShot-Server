@@ -105,4 +105,11 @@ describe('Image E2E API', () => {
             });
     });
 
+    it('gets image by id', () => {
+        return request.get(`/api/images/${KittenOne._id}`)
+            .then(({ body }) => {
+                assert.deepEqual(body, KittenOne);
+            });
+    });
+
 });
