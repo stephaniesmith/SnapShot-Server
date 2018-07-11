@@ -121,4 +121,15 @@ describe('Image E2E API', () => {
             });
     });
 
+    it('removes an image by id', () => {
+        return request.delete(`/api/images/${KittenOne._id}`)
+            .then(({ body }) => {
+                assert.deepEqual(body, KittenOne);
+                return request.get(`/api/images/${KittenOne._id}`)
+                    .then(({ error }) => {
+                        assert.deepEqual(error.status, 404);
+                    });
+            });
+    });
+
 });
