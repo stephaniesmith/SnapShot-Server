@@ -20,7 +20,7 @@ describe('Album E2E API', () => {
             .then(({ body }) => token = body.token);
     });
 
-    let janelle = {
+    let kitten = {
         title: 'Kitten',
         description: 'Something cute',
         posterImage: 'http://www.domusfelium.co.uk/faith_kitten_blue_silver_8_weeks.jpg'
@@ -29,24 +29,34 @@ describe('Album E2E API', () => {
     it('posts an album', () => {
         return request.post('/api/albums')
             .set('Authorization', token)
-            .send(janelle)
+            .send(kitten)
             .then(({ body }) => {
                 const { _id, __v } = body;
                 assert.ok(_id);
                 assert.equal( __v, 0);
                 assert.deepEqual(body, {
-                    ...janelle,
+                    ...kitten,
                     _id,
                     __v
                 });
-                janelle = body;
+                kitten = body;
             });
     });
 
     it('gets all albums', () => {
         return request.get('/api/albums')
             .then(({ body }) => {
-                assert.deepEqual(body, [janelle]);
+                assert.deepEqual(body, [kitten]);
+            });
+    });
+
+    it('updates an album', () => {
+        kitten.description = 'A cute Kitten';
+        return request.put(`/api/albums/${kitten._id}`)
+            .set('Authorization', token)
+            .send(kitten)
+            .then(({ body }) => {
+                assert.deepEqual(body, kitten);
             });
     });
 
