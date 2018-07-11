@@ -60,4 +60,12 @@ describe('Album E2E API', () => {
             });
     });
 
+    it('finds an album by id', () => {
+        return request.get(`/api/albums/${kitten._id}`)
+            .set('Authorization', token)
+            .then(({ body }) => {
+                assert.deepEqual(body, kitten);
+            });
+    });
+
 });
