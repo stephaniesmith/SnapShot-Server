@@ -105,4 +105,31 @@ describe('Image E2E API', () => {
             });
     });
 
+    it('gets image by id', () => {
+        return request.get(`/api/images/${KittenOne._id}`)
+            .then(({ body }) => {
+                assert.deepEqual(body, KittenOne);
+            });
+    });
+
+    it('updates an image by id', () => {
+        KittenOne.description = 'A cute kitten';
+        return request.put(`/api/images/${KittenOne._id}`)
+            .send(KittenOne)
+            .then(({ body}) => {
+                assert.deepEqual(body, KittenOne);
+            });
+    });
+
+    it('removes an image by id', () => {
+        return request.delete(`/api/images/${KittenOne._id}`)
+            .then(({ body }) => {
+                assert.deepEqual(body, KittenOne);
+                return request.get(`/api/images/${KittenOne._id}`)
+                    .then(({ error }) => {
+                        assert.deepEqual(error.status, 404);
+                    });
+            });
+    });
+
 });
