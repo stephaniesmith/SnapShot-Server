@@ -112,4 +112,13 @@ describe('Image E2E API', () => {
             });
     });
 
+    it('updates an image by id', () => {
+        KittenOne.description = 'A cute kitten';
+        return request.put(`/api/images/${KittenOne._id}`)
+            .send(KittenOne)
+            .then(({ body}) => {
+                assert.deepEqual(body, KittenOne);
+            });
+    });
+
 });
